@@ -1,0 +1,23 @@
+{
+  "name": "iot-perusteet",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maijatee/IOT-perusteet.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maijatee/IOT-perusteet/issues"
+  },
+  "homepage": "https://github.com/maijatee/IOT-perusteet#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
