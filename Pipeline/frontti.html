@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Liiketunnistin Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h2>Liiketunnistin</h2>
+  <canvas id="chart"></canvas>
+  <p id="status">Tilanne: ei liikettä</p>
+
+  <script>
+    const apiUrl = 'http://localhost:3000/api/motion';
+    const ws = new WebSocket('ws://localhost:3001');
+
+    const ctx = document.getElementById('chart');
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'Liike (1 = havaittu, 0 = ei)',
+          data: [],
+          borderWidth: 2
+        }]
+      }
+    });
+
+    async function updateData() {
+      const res = await fetch(apiUrl);
+      const data = await res.json();
+      const value = parseInt(data.field1);
+      chart.data.labels.push(new Date().toLocaleTimeString());
+      chart.data.datasets[0].data.push(value);
+      chart.update();
+    }
+
+    setInterval(updateData, 10000);
+
+    ws.onmessage = (msg) => {
+      const data = JSON.parse(msg.data);
+      if (data.motion === 1) {
+        document.getElementById('status').innerText = 'Liike havaittu!';
+      } else {
+        document.getElementById('status').innerText = 'Tilanne: ei liikettä';
+      }
+    };
+  </script>
+</body>
+</html>
